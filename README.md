@@ -6,6 +6,10 @@ Invis is lean (the source code is ~200LOC) and it's meant to be used as a buildi
 
 I like to think that Invis encapsulates the "Explicit is better than implicit" ideology of Python, by treating type annotations as explicit rather than implicit, and doing it so in a way that keeps the code beautiful and clutter free.
 
+#### Installation:
+`python -m pip install git+https://github.com/dxflores/invis.git`
+
+
 *The following documentation will be presented in a tutorial style and it will show you all you need to know to start using Invis in your projects.*
 
 ## Basic example using Python builtins:
