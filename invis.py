@@ -7,7 +7,6 @@ Copyright (c) 2019, Diogo Flores.
 License: MIT
 """
 
-
 from collections import ChainMap
 from dataclasses import dataclass
 from functools import wraps
@@ -38,14 +37,25 @@ class Descriptor:
 
 class Typed(Descriptor):
     type = None
-
+    
     @classmethod
     def check(cls, value):
         if cls.__qualname__ == "Function":
             if value:  # Not None
-                assert callable(
-                    value
-                ), f"Expected: <class 'function'> got: {type(value)}"
+                if value not in _builtins:
+                    assert callable(
+                        value
+                    ), f"Expected: <class 'function'> got: {type(value)}"
+                else:
+                    raise TypeError(f"Expected: <class 'function'> got: {value}")
+            else:
+                # In case you pass an empty builtin e.g. []
+                # Or if you pass a zero integer.
+                if type(value) in _builtins:
+                    raise TypeError(
+                        f"Expected: <class 'function'> got: empty {type(value)}"
+                    )
+
         else:
             assert isinstance(
                 value, cls.type
