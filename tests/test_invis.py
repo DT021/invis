@@ -102,7 +102,7 @@ def test_CMap():
             else:
                 Test(val)
         else:
-            if type(val) != Test.firs.type:
+            if val.type != Test.firs.type:
                 with pytest.raises(AssertionError):
                     Test(val)
             else:
