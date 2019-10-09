@@ -34,6 +34,8 @@ class Descriptor:
     def check(cls, value):
         pass
 
+# There are multiple ways to access the builtins but this seems to be the most explicit.
+_builtins = {bytes, bytearray, complex, dict, float, int, list, set, str, tuple}
 
 class Typed(Descriptor):
     type = None
@@ -107,10 +109,6 @@ class NaturalNum(int, Positive):  # Mixin
 
 
 ########################################################################################
-
-# There are multiple ways to access the builtins but this seems to be the most explicit.
-_builtins = {bytes, bytearray, complex, dict, float, int, list, set, str, tuple}
-
 
 def inv(func):
     """
