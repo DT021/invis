@@ -12,7 +12,7 @@ nevertheless the following cover around ~90% with pytest-cov.
 def test_permutations_builtins():
 
     # builtins = {bytes, bytearray, complex, dict, float, int, list, set, str, tuple}
-    values = [b"hello", bytearray(1), 1 + 1j, {}, 1.0, [], "hi", ()]
+    values = [b"hello", bytearray(1), 1 + 1j, {}, 1.0, 2, [], "hi", ()]
 
     for val in values:
 
@@ -29,7 +29,7 @@ def test_permutations_builtins():
             else:
                 Test(
                     elem
-                )  # Does not raise an error. Same type as classes "first" attribute.
+                )  # Does not raise an error. Same type as Test.first attribute.
 
 
 ########################## -- User defined classes/mixins -- ###########################
