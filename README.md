@@ -1,4 +1,8 @@
 # Invis
+
+## David/Bryant, if you are reading this be aware that I am making changes in the code, in particular I am moving the "user defined classes" to a separate file instead of keeping them in the main file, which i believe is an improvement over the current design. Nevertheless the following documentation still holds, as well as all the functionality, and this warning is mostly because I might be trying different ideas and changing the code while you are reading it.
+
+
 Invis is an invisible framework that enforces runtime checking of both builtins as well as user defined types.
 It is distributed as a single file with no extra dependencies other than the Python Standard Library (>= 3.7).
 
