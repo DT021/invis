@@ -118,7 +118,7 @@ def inv(func):
                     try:
                         ann[name].type = ann[name].__bases__[0]
                     except IndexError:
-                        pass  # The class is not a Mixin, yet it is defined in this module.
+                        pass  # The class is not a Mixin, yet it's defined in _userinvis.py
                     else:
                         assert isinstance(
                             val, ann[name].type
@@ -144,7 +144,8 @@ def inv(func):
 
 
 def _types(cls, name, val):
-    if val in _contracts.values():  # classes defined in this module.
+    # classes defined in '_userinvis' or defined for the first time in a different module
+    if val in _contracts.values():
         contract = val()
     else:
         # If it is not the above, nor a builtin type, then val must be a user defined
