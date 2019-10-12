@@ -11,9 +11,9 @@ from collections import ChainMap
 from dataclasses import dataclass
 from functools import wraps
 from inspect import signature
-
-# Imports the objects defined in the list below when you do:  from invis import *
-__all__ = ["NaturalNum", "Invis", "inv"]
+import os
+from pathlib import Path
+import sys
 
 _contracts = {}
 
@@ -34,12 +34,14 @@ class Descriptor:
     def check(cls, value):
         pass
 
+
 # There are multiple ways to access the builtins but this seems to be the most explicit.
 _builtins = {bytes, bytearray, complex, dict, float, int, list, set, str, tuple}
 
+
 class Typed(Descriptor):
     type = None
-    
+
     @classmethod
     def check(cls, value):
         if cls.__qualname__ == "Function":
@@ -72,43 +74,28 @@ class Function(Typed):
     type = object
 
 
-########################## -- User defined classes/mixins -- ###########################
+# The following try/except looks for a file ("_invis.py") up to two directories from
+# the current location where you are trying to execute code. If it finds the file, then
+# it will enforce the types defined in the file, otherwise Invis will only enforce
+# builtin types.
+try:
+    cur = os.getcwd()
+    if os.path.exists(f"{cur}/_invis.py"):
+        from _userinvis import *
 
-# Define your own generic classes/mixins with the name/type you wish.
-# You will be able to enforce the types defined here in any derived class of
-# (Base, Typed) without any additional importing other than: from invis import Invis (or
-# any other class that derives from Base, Typed).
-# If you require to enforce these types in random functions (methods from derived classes
-# are already included) throughout your program, then you must import the classes you are
-# defining directly (plus the 'inv' decorator) or you may just: from invis import *
-# given that you add the classes to the __all__ list defined at the top of this file.
-# A few examples are provided below:
-
-
-class CMap(Typed):
-    from collections import ChainMap
-
-    type = ChainMap
-
-
-# class NArray(Typed):
-#    import numpy
-#
-#    type = numpy.ndarray
-
-
-class Positive(Descriptor):
-    @classmethod
-    def check(cls, value):
-        assert value > 0, f"value: {value} must be > 0"
-        super().check(value)
-
-
-class NaturalNum(int, Positive):  # Mixin
+    else:
+        parent = Path(cur).parents[0]
+        if os.path.exists(f"{parent}/_invis.py"):
+            sys.path.insert(0, "..")
+            from _userinvis import *
+        else:
+            grandp = parent.parents[0]
+            if os.path.exists(f"{grandp}/_invis.py"):
+                sys.path.insert(1, f"{grandp}")
+                from _userinvis import *
+except ImportError:
     pass
 
-
-########################################################################################
 
 def inv(func):
     """
