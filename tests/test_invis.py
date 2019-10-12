@@ -1,10 +1,14 @@
-from collections import ChainMap
-from invis import Invis, Function, NaturalNum, CMap
+from invis import Invis
 import pytest
 
 """
 Since Invis purpose is to assert types, it's a bit contrived to write assertion tests,
-nevertheless the following cover around ~90% with pytest-cov. 
+nevertheless the following covers 100% of the builtins (The only types that Invis 
+accepts if you dont add a "_invis.py")
+
+Additionally, there is some commented code that was used to test some of the examples 
+from the README.md, which can be used by each user as a starting point to write its 
+own tests for its own defined types.
 """
 
 ################################# -- Builtins-- ######################################
@@ -32,7 +36,11 @@ def test_permutations_builtins():
                 )  # Does not raise an error. Same type as Test.first attribute.
 
 
+"""              
 ########################## -- User defined classes/mixins -- ###########################
+from collections import ChainMap
+from invis import Invis, Function, NaturalNum, CMap
+import pytest
 
 # It is easier to test user defined classes in simple functions, other than one single
 # function that must care about each edge case.
@@ -123,3 +131,4 @@ def test_NaturalNum():
         else:
             with pytest.raises((AssertionError, TypeError)):
                 Test(val)
+"""
