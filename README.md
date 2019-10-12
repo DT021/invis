@@ -141,7 +141,7 @@ class Kls(Invis):
 
 k = kls(1) # OK
 ```
-*(Notice that we didn't had to import *NaturalNum*, the same way that we didn't had to import *NArray* , once they are defined in the "_inivs.py" module,  then they become available to all classes that derive from Invis)*
+*(Notice that we didn't had to import *NaturalNum*, the same way that we didn't had to import *NArray* , once they are defined in the "_userinvis.py" module,  then they become available to all classes that derive from Invis)*
 
 ### Now let's define two classes in two separate modules:
 *(And have the second module only accept objects that are of the type defined in the first module.)*
