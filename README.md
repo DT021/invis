@@ -1,5 +1,7 @@
 # Invis
 
+## David/Bryant, I found some crippling bug - don't download this version.
+
 Invis is an invisible framework, which purpose is to enforce type checking of both builtins as well as user defined types at **runtime**. 
 
 It is distributed as a single file with no extra dependencies other than the Python Standard Library (>= 3.7).
