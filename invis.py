@@ -80,17 +80,17 @@ class Function(Typed):
 # builtin types.
 try:
     cur = os.getcwd()
-    if os.path.exists(f"{cur}/_userinvis.py"):
+    if os.path.exists(f"{cur}/_invis.py"):
         from _userinvis import *
 
     else:
         parent = Path(cur).parents[0]
-        if os.path.exists(f"{parent}/_userinvis.py"):
+        if os.path.exists(f"{parent}/_invis.py"):
             sys.path.insert(0, "..")
             from _userinvis import *
         else:
             grandp = parent.parents[0]
-            if os.path.exists(f"{grandp}/_userinvis.py"):
+            if os.path.exists(f"{grandp}/_invis.py"):
                 sys.path.insert(1, f"{grandp}")
                 from _userinvis import *
 except ImportError:
