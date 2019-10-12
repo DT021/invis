@@ -1,20 +1,14 @@
 # Invis
 
-## David/Bryant, if you are reading this be aware that I am making changes in the code, in particular I am moving the "user defined classes" to a separate file instead of keeping them in the main file, which i believe is an improvement over the current design. Nevertheless the following documentation still holds, as well as all the functionality, and this warning is mostly because I might be trying different ideas and changing the code while you are reading it.
+Invis is an invisible framework, which purpose is to enforce type checking of both builtins as well as user defined types at **runtime**. 
 
-
-Invis is an invisible framework that enforces runtime checking of both builtins as well as user defined types.
 It is distributed as a single file with no extra dependencies other than the Python Standard Library (>= 3.7).
-
-Invis is lean (the source code is ~200LOC) and it's meant to be used as a building block for your project specific needs, nevertheless as is it already provides type check/enforcing for all python builtin types (list, dict, float, ...) on both user defined classes and functions, as well as a few other features, all of which are described below.
-
-I like to think that Invis encapsulates the "Explicit is better than implicit" ideology of Python, by treating type annotations as explicit rather than implicit, and doing it so in a way that keeps the code beautiful and clutter free.
 
 #### Installation:
 `python -m pip install git+https://github.com/dxflores/invis.git`
 
 
-*The following documentation will be presented in a tutorial style and it will show you all you need to know to start using Invis in your projects.*
+*The following documentation will be presented in a tutorial style.*
 
 ## Basic example using Python builtins:
 ```python
@@ -26,21 +20,16 @@ class Kls(Invis):
     second: bytes
     third: float
 
-    def func(self, di: dict, st: str = None):
-        if st:
-            return st
-        return di
-
-k = Kls(3, b"Hi", 5.0)
-k.func({}, st = "you")	# Returns "you"
+k = Kls(3, b"Hi", 5.0)	# OK
+k.first = 3.0		# Error, Kls.first only accepts integers
 ```
-*Kls* is a [dataclass](https://docs.python.org/3/library/dataclasses.html) behind the scenes, and if you don't initialize it with the annotated types, it will give you an error. The same applies for the method within, you must call it with a dict as the first argument, and a string as the second argument, otherwise you will get an error.
-If after initialization you try to change one of the attribute values and you don't pass the same type as annotated it will also give you an error. 
+*Kls* is a [dataclass](https://docs.python.org/3/library/dataclasses.html) behind the scenes and if we don't initialize it with the annotated types, we will get an error. 
+If after initialization we try to change one of the attribute values and we don't pass the expected type, we will also get an error. 
 
 *This is the essence of Invis, to make type checking/enforcing invisible to the end user, yet highly customizable to the library/framework author, as we will see below.*
 
 ## The 'Function' keyword:
- *(this keyword is predefined in Invis's source code and is meant to represent a [callable](https://docs.python.org/3/library/functions.html#callable) in python, in other words it enforces that the argument passed to it must be *callable*, much like the keyword *int* enforces that the argument passed to it must be an integer)*
+ *(This keyword is predefined in Invis's source code and is meant to represent a [callable](https://docs.python.org/3/library/functions.html#callable) in python, in other words, it enforces that the argument passed to it must be *callable*, much like the keyword 'int' enforces that the argument must be an integer. It is the only keyword added by the framework.)*
 ```python
 # example2.py
 from invis import Invis
@@ -55,57 +44,82 @@ class Kls(Invis):
 k = Kls(func)	# Passing the function defined above to the first attribute
 k.first(2, 3) 	# returns 5
 k.second(3)  	# returns 9
+
+k2 = Kls(min)	# Passing a builtin function
+k2.first(4, 7)	# returns 4
 ```
-Notice that we are initializing *Kls* with only one argument, func, since the second one defaults to a lambda.
-Since both attributes are (and must be) callable,  then we can just call them. 
-*(We will see below on the *"Bonus"* part of this tutorial how we could force *func* to only accept a specific type of argument when we call it.)*
+Notice that we are initializing both instances of *Kls* with only one argument, since the second one defaults to a lambda.
+Given that both attributes are (and must be) callable,  then we can just call them with different values.
+We could even initialize Kls with a method from a different class, since *it* is also callable.
 
-
-#### Expanding on the previous example, we could initialize  *Kls* with a builtin function instead of a user defined one:
-```python
-# example2.py continuation.
-
-# with min
-k = Kls(min)
-k.first(4,7)   # returns 4
-
-#or with len.
-k = Kls(len)
-k.first([1, {}, "hello", 0.1, ()]) # returns 5
-```
-*You could even pass a method from a different class. Anything that is a callable will work. Anything that is not will fail with an error.*
+*(We will see below, on the *"Bonus"* part of this tutorial, how we could force *func* to only accept a specific type of argument when we call it.)*
 
 ## Customizing Invis: 
-Until now, all the type checking we did was with the builtin types, however every project has different needs and I wrote invis to be as adaptable as possible to those, with minimal coding from your side. 
+Until now, all the type checking we did was 'against' builtin types, however every project has different needs and Invis easily adapts to them, with minimal coding from your side. 
+To enforce user-defined types, you must create a module named "_invis.py" at the root of your project,  and inside that module define the types that you want to enforce on the classes/functions throughout your project.  
+Let's see an example: 
+```
+. project
+	├── package1
+	│   	├── module1.py
+	│   	└── module2.py
+	└── package2
+	│   	├── module3.py
+	│   	├── module4.py
+	│   	└── package3
+	│       	└── module5.py
+	│── setup.py
+	│── README.md
+	└── _invis.py			<----- "_invis.py"
+```
 
-e.g. you could add the following lines to Invis's source code (the right place to do it is annotated in the code)
+By adding the following code to "_invis.py"
 ```python
-# invis.py
+# _invis.py
+from invis import Typed
+
+__all__ = ["NArray"]
 
 class NArray(Typed):
     import numpy as np
 
     type = np.ndarray
 ```
-And if you did so, then you could define the class below:
+We can now enforce type checking for "NArray" in any module of our project:
 ```python
 #example 3.py
 from invis import Invis
+import numpy as np
 
 class Kls(Invis):
     first: NArray
-    second: int
-
+    
     def func(self, arr: NArray):
-	    return arr * self.second
-```
-And as you probably guessed, unless you pass a *Numpy array* as the first argument and an *int* as the second you will get an error. 
-The same applies for the method within *Kls*, which takes a single argument,  a *Numpy array*.
+	    return arr * self.first
 
-###  The idea of editing Invis's source code can be expanded further to accommodate for techniques such as Mixins: 
-*(By adding the following two classes to invis's source code)*
+
+arr = np.array([1,2,3])
+arr2 = np.array([4,5,6])
+
+k = Kls(arr)	# OK
+k.func(arr2)	# returns array([ 4, 10, 18])
+```
+And unless we initialize *Kls* with a *numpy array* we will get an error. 
+The same applies for the method 'func' which only accepts a *numpy array*, otherwise it will throw an error.
+
+### We can expand "_invis.py" to accommodate for techniques such as Mixins: 
+*By appending the following two classes, 'Positive' and 'NaturalNum'*
 ```python
-# invis.py 
+# _invis.py 
+from invis import Typed, Descriptor
+
+__all__ = ["NArray", "NaturalNum"]
+
+class NArray(Typed):
+    import numpy as np
+
+    type = np.ndarray
+
 
 class Positive(Descriptor):
     @classmethod
@@ -114,10 +128,10 @@ class Positive(Descriptor):
         super().check(value)
 
 
-class NaturalNum(int, Positive):  # Mixin
+class NaturalNum(int, Positive):  # Mixin - instances must be both integer and >= 1
     pass
 ```
-You can then use *NaturalNum* in your own classes the same way you used *NArray*:
+We can then use *NaturalNum* in our own classes/functions the same way we used *NArray*:
 ```python
 # example4.py
 from invis import Invis
@@ -125,15 +139,15 @@ from invis import Invis
 class Kls(Invis):
     first: NaturalNum
 
-k = kls(1) # first needs to be both an int as well as positive (>= 1)
+k = kls(1) # OK
 ```
-*(Notice that you didn't had to import **NaturalNum**, the same way that you didn't had to import **NArray** , once you defined it in the source code then it becomes available to all classes that derive from Invis)*
+*(Notice that we didn't had to import *NaturalNum*, the same way that we didn't had to import *NArray* , once they are defined in the "_inivs.py" module,  then they become available to all classes that derive from Invis)*
 
-### Now let's define two classes on two separate files:
-
+### Now let's define two classes in two separate modules:
+*(And have the second module only accept objects that are of the type defined in the first module.)*
 ```python
 # example5.py
-# fileA.py
+# module1.py
 from invis import Invis
 from dataclasses import field # To use the field keyword, we must import it.
 
@@ -142,14 +156,14 @@ class Person(Invis):
     age: int
     info: dict = field(default_factory=dict, repr=False)
 
-c = Person(name="Camilla", age=27)
-d = Person(name="Diogo", age=28, info={'has_dog': True})
+ed = Person(name="Edward", age=36)
+jul = Person(name="Julian", age=48, info={'Australian': True})
 ```
 ```python
 # example5.py
-# fileB.py
+# module2.py
 from invis import Invis
-from fileA import Person, c, d
+from package1.module1 import Person, ed, jul
 
 class Kls(Invis):
     first: Person
@@ -157,15 +171,17 @@ class Kls(Invis):
     def func(self, num: NaturalNum = 10):
         return self.first.age + num
 
-k = Kls(c) 	# first is a Person object
-k.func()   	# Returns 37
+k = Kls(ed) 
+k.func()   	# Returns 46
 
 k.first = 10    # Error, first only accepts Person objects
-k.first = d     # OK, because d is also a Person object
-k.func(10.5)    # Error, float was passed, only NaturalNum allowed
-k.funk(10)      # OK, returns 38
+k.first = jul   # OK, because d is also a Person object
+k.func(10.5)    # Error, float was passed, only NaturalNum (int >= 1) allowed
+k.func(10)      # OK, returns 58
 ```
-Pretty cool, right? Invisible type checking of user defined classes at runtime.
+Pretty cool, right? Invisible type checking of user defined classes, in different modules, at runtime, without the need to write any extra code other than the import statement. Try it in a REPL.
+
+*Note that we didn't add anything to "_invis.py", hence the type "Person" must be imported from the module where it is defined to the module where we want to use it.*
 
 ### Inheritance without initialization:
 
@@ -201,16 +217,16 @@ class Kls_3(Kls_2):
     first: int
 
 
-k = Kls_3(2)    # Didn't had to initialize the other classes.
+k = Kls_3(2)    # Don't have to initialise any of the parent classes
 
-# Yet, it can still access the methods + class variables defined up the chain:
+# Yet, we still have access to the methods + class variables defined up the chain.
 k.ClassVar      # Returns "Hi"
 k.func1()       # Returns "func1"
 k.func3(10)     # Returns 20
 ```
 
 ## Bonus:
-*If you need type checking on a random function (outside of a class that inherits from *Invis*), you can import a decorator which will give you the same type checking/enforcing for both builtin and user defined types/classes.*
+*To enforce types in  random functions (those outside of a class that inherits from *Invis*), we can import a decorator 'inv'.*
 ```python
 # example7.py
 from invis import inv
@@ -221,22 +237,24 @@ def func(a:int, b: float):
 
 func(2, 3.0)
 ```
-The above example only works for builtin types, to enforce type checking of user defined types you can either import them explicitly or add the desired classes to __ all__, in the source code, and then "from invis import *"
+Albeit, the above example only works for checking 'against' builtin types. 
+
+To enforce type checking of user defined types (those that we previously defined in "_invis.py") we must import them explicitly.
 
 ```python
 # example 8.py
-from invis import inv, Function, NaturalNum, NArray # Equal to: from invis import *  
+from invis import inv, Function, NaturalNum, NArray 
 import numpy as np
 
 @inv
 def func(a:Function, b:NArray, c: NaturalNum):
-    return a(b*c)
+    return a(b * c)
 
 array = np.array([1,2,3])
 func(max, array, 2)     # Returns 6
 ```
 
-#### If you need to customize the dataclass parameters, you can do it like this:
+#### To customize the dataclass parameters, we can do it like this:
 
 ```python
 from invis import Invis
