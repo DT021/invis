@@ -4,7 +4,7 @@ import pytest
 """
 Since Invis purpose is to assert types, it's a bit contrived to write assertion tests,
 nevertheless the following covers 100% of the builtins (The only types that Invis 
-accepts if you dont add a "_userinvis.py")
+accepts if you dont add a "_invis.py")
 
 Additionally, there is some commented code that was used to test some of the examples 
 from the README.md, which can be used by each user as a starting point to write its 
