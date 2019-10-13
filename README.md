@@ -175,7 +175,7 @@ k = Kls(ed)
 k.func()   	# Returns 46
 
 k.first = 10    # Error, first only accepts Person objects
-k.first = jul   # OK, because d is also a Person object
+k.first = jul   # OK, because jul is also a Person object
 k.func(10.5)    # Error, float was passed, only NaturalNum (int >= 1) allowed
 k.func(10)      # OK, returns 58
 ```
@@ -254,7 +254,7 @@ array = np.array([1,2,3])
 func(max, array, 2)     # Returns 6
 ```
 
-#### To customize the dataclass parameters, we can do it like this:
+#### Customize the dataclass parameters is as easy as:
 
 ```python
 from invis import Invis
@@ -271,8 +271,8 @@ ___
 
 ## Contributing:
 
-Both bug reports and pull/feature requests are welcomed, and the latter will be considered, nevertheless I would like to be explicit on my vision for this project.
-I want to keep *Invis* as lean as possible so every unique user will be able to hack it, if they deem necessary, to fit their project needs without having to read through endless lines of code.
+Both bug reports and pull/feature requests are welcomed, and the latter will be considered, nevertheless I would like to be explicit on my vision for this project.  
+I want to keep *Invis* lean so each user will be able to hack it, if they deem necessary, to fit their project needs without having to read through endless lines of code.
 Given the above and the fact that the source code is thoroughly commented, it might seem almost enticing to start adding features, but I will defer those unless they prove to be for the "greater good" and not project specific.
 I would suggest, however, is that you submit any cool ideas/features/approaches of how you use Invis in your project to the /examples page so everyone can drive inspiration from them.
 
