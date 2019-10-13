@@ -254,7 +254,7 @@ array = np.array([1,2,3])
 func(max, array, 2)     # Returns 6
 ```
 
-#### Customize the dataclass parameters is as easy as:
+#### To customize the dataclass parameters:
 
 ```python
 from invis import Invis
