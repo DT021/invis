@@ -74,25 +74,25 @@ class Function(Typed):
     type = object
 
 
-# The following try/except looks for a file ("_userinvis.py") up to two directories from
+# The following try/except looks for a file ("_invis.py") up to two directories from
 # the current location where you are trying to execute code. If it finds the file, then
 # it will enforce the types defined in the file, otherwise Invis will only enforce
 # builtin types.
 try:
-    cur = os.getcwd()
-    if os.path.exists(f"{cur}/_userinvis.py"):
-        from _userinvis import *
+    current = os.getcwd()
+    if os.path.exists(f"{current}/_invis.py"):
+        from _invis import *
 
     else:
-        parent = Path(cur).parents[0]
-        if os.path.exists(f"{parent}/_userinvis.py"):
+        oneup = Path(current).parents[0]
+        if os.path.exists(f"{oneup}/_invis.py"):
             sys.path.insert(0, "..")
-            from _userinvis import *
+            from _invis import *
         else:
-            grandp = parent.parents[0]
-            if os.path.exists(f"{grandp}/_userinvis.py"):
-                sys.path.insert(1, f"{grandp}")
-                from _userinvis import *
+            twoup = oneup.parents[0]
+            if os.path.exists(f"{twoup}/_invis.py"):
+                sys.path.insert(1, f"{twoup}")
+                from _invis import *
 except ImportError:
     pass
 
