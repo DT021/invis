@@ -56,7 +56,7 @@ We could even initialize Kls with a method from a different class, since *it* is
 
 ## Customizing Invis: 
 Until now, all the type checking we did was 'against' builtin types, however every project has different needs and Invis easily adapts to them, with minimal coding from your side. 
-To enforce user-defined types, you must create a module named "_userinvis.py" at the root of your project,  and inside that module define the types that you want to enforce on the classes/functions throughout your project.  
+To enforce user-defined types, you must create a module named "_invis.py" at the root of your project,  and inside that module define the types that you want to enforce on the classes/functions throughout your project.  
 Let's see an example: 
 ```
 . project
@@ -70,12 +70,12 @@ Let's see an example:
 	│       	└── module5.py
 	│── setup.py
 	│── README.md
-	└── _userinvis.py			<----- "_userinvis.py"
+	└── _invis.py			<----- "_invis.py"
 ```
 
-By adding the following code to "_userinvis.py"
+By adding the following code to "_invis.py"
 ```python
-# _userinvis.py
+# _invis.py
 from invis import Typed
 
 __all__ = ["NArray"]
@@ -107,10 +107,10 @@ k.func(arr2)	# returns array([ 4, 10, 18])
 And unless we initialize *Kls* with a *numpy array* we will get an error. 
 The same applies for the method 'func' which only accepts a *numpy array*, otherwise it will throw an error.
 
-### We can expand "_userinvis.py" to accommodate for techniques such as Mixins: 
+### We can expand "_invis.py" to accommodate for techniques such as Mixins: 
 *By appending the following two classes, 'Positive' and 'NaturalNum'*
 ```python
-# _userinvis.py 
+# _invis.py 
 from invis import Typed, Descriptor
 
 __all__ = ["NArray", "NaturalNum"]
@@ -141,7 +141,7 @@ class Kls(Invis):
 
 k = kls(1) # OK
 ```
-*(Notice that we didn't had to import *NaturalNum*, the same way that we didn't had to import *NArray* , once they are defined in the "_userinvis.py" module,  then they become available to all classes that derive from Invis)*
+*(Notice that we didn't had to import *NaturalNum*, the same way that we didn't had to import *NArray* , once they are defined in the "_invis.py" module,  then they become available to all classes that derive from Invis)*
 
 ### Now let's define two classes in two separate modules:
 *(And have the second module only accept objects that are of the type defined in the first module.)*
@@ -181,7 +181,7 @@ k.func(10)      # OK, returns 58
 ```
 Pretty cool, right? Invisible type checking of user defined classes, in different modules, at runtime, without the need to write any extra code other than the import statement. Try it in a REPL.
 
-*Note that we didn't add anything to "_userinvis.py", hence the type "Person" must be imported from the module where it is defined to the module where we want to use it.*
+*Note that we didn't add anything to "_invis.py", hence the type "Person" must be imported from the module where it is defined to the module where we want to use it.*
 
 ### Inheritance without initialization:
 
@@ -239,7 +239,7 @@ func(2, 3.0)
 ```
 Albeit, the above example only works for checking 'against' builtin types. 
 
-To enforce type checking of user defined types (those that we previously defined in "_userinvis.py") we must import them explicitly.
+To enforce type checking of user defined types (those that we previously defined in "_invis.py") we must import them explicitly.
 
 ```python
 # example 8.py
