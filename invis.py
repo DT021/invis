@@ -54,7 +54,6 @@ class Typed(Descriptor):
                     raise TypeError(f"Expected: <class 'function'> got: {value}")
             else:
                 # In case you pass an empty builtin e.g. []
-                # Or if you pass a zero integer.
                 if type(value) in _builtins:
                     raise TypeError(
                         f"Expected: <class 'function'> got: empty {type(value)}"
@@ -112,13 +111,12 @@ def inv(func):
             if name in ann:
 
                 # This if statement accomodates possible user defined Mixins, allowing such
-                # to have their first Parent being a builtin and not a class which defines
-                # a "type" attribute equal to a builtin.
+                # to have their first Parent being a builtin.
                 if not hasattr(ann[name], "type") and ann[name] not in _builtins:
                     try:
                         ann[name].type = ann[name].__bases__[0]
                     except IndexError:
-                        pass  # The class is not a Mixin, yet it's defined in _userinvis.py
+                        pass  # The class is not a Mixin, yet it's defined in _invis.py
                     else:
                         assert isinstance(
                             val, ann[name].type
@@ -144,7 +142,7 @@ def inv(func):
 
 
 def _types(cls, name, val):
-    # classes defined in '_userinvis' or defined for the first time in a different module
+    # classes defined in '_invis.py' or defined for the first time in a different module
     if val in _contracts.values():
         contract = val()
     else:
@@ -241,9 +239,8 @@ class Base(metaclass=BaseMeta):
         _derived_classes[cls.__name__] = cls
 
 
-# This is the class you inherit from when you do: from invis import Invis.
-# An alternative approach would be to to define the "Master" classes for your project
-# here without any annotations or methods, and then import them directly.
-# e.g. from invis import Kls
 class Invis(Base, Typed):
+    """
+    This is the (empty) class you import when you do: from invis import Invis.
+    """
     pass
