@@ -259,7 +259,7 @@ func(max, array, 2)     # Returns 6
 ```python
 from invis import Invis
 
-class Kls(Invis, params=dict(repr=False)): # You must pass a dictionary named "params"
+class Kls(Invis, params=dict(repr=False)): # We must pass a dictionary named "params"
 	first: int
 
 k = Kls(5) # No repr
