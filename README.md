@@ -56,7 +56,7 @@ We could even initialize Kls with a method from a different class, since *it* is
 
 ## Customizing Invis: 
 Until now, all the type checking we did was 'against' builtin types, however every project has different needs and Invis easily adapts to them, with minimal coding from your side. 
-To enforce user-defined types, you must create a module named "_invis.py" at the root of your project,  and inside that module define the types that you want to enforce on the classes/functions throughout your project.  
+To enforce user-defined types, you must create a module named "_invis.py" at the root of your project (think of it as an Header file),  and inside that module define the types that you want to enforce on the classes/functions throughout your project.  
 Let's see an example: 
 ```
 . project
@@ -78,7 +78,6 @@ By adding the following code to "_invis.py"
 # _invis.py
 from invis import Typed
 
-__all__ = ["NArray"]
 
 class NArray(Typed):
     import numpy as np
@@ -90,6 +89,7 @@ We can now enforce type checking for "NArray" in any module of our project:
 #example 3.py
 from invis import Invis
 import numpy as np
+
 
 class Kls(Invis):
     first: NArray
@@ -113,7 +113,6 @@ The same applies for the method 'func' which only accepts a *numpy array*, other
 # _invis.py 
 from invis import Typed, Descriptor
 
-__all__ = ["NArray", "NaturalNum"]
 
 class NArray(Typed):
     import numpy as np
