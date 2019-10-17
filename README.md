@@ -78,7 +78,6 @@ By adding the following code to "_invis.py"
 # _invis.py
 from invis import Typed
 
-
 class NArray(Typed):
     import numpy as np
 
@@ -89,7 +88,6 @@ We can now enforce type checking for "NArray" in any module of our project:
 #example 3.py
 from invis import Invis
 import numpy as np
-
 
 class Kls(Invis):
     first: NArray
@@ -112,7 +110,6 @@ The same applies for the method 'func' which only accepts a *numpy array*, other
 ```python
 # _invis.py 
 from invis import Typed, Descriptor
-
 
 class NArray(Typed):
     import numpy as np
