@@ -136,6 +136,8 @@ def inv(func):
                     assert isinstance(
                         val, ann[name]
                     ), f"Expected {val} to be of type: {ann[name]} but got: {type(val)}"
+            else:
+                continue
         return func(*args, **kwargs)
 
     return wrapper
