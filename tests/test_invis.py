@@ -1,17 +1,19 @@
-from invis import Invis
 import pytest
+from invis import Invis
 
 """
 Since Invis purpose is to assert types, it's a bit contrived to write assertion tests,
-nevertheless the following covers 100% of the builtins (The only types that Invis 
-accepts if you dont add a "_invis.py")
+nevertheless the following covers ~97% of the builtins + the Function keyword.
+(The only types that Invis accepts if you dont add a "_invis.py")
 
 Additionally, there is some commented code that was used to test some of the examples 
-from the README.md, which can be used by each user as a starting point to write its 
-own tests for its own defined types.
+from the README.md.
+Such can be used by each user as a starting point to write its own tests for its own 
+defined types.
 """
 
 ################################# -- Builtins-- ######################################
+
 
 def test_permutations_builtins():
 
@@ -36,39 +38,27 @@ def test_permutations_builtins():
                 )  # Does not raise an error. Same type as Test.first attribute.
 
 
-"""              
-########################## -- User defined classes/mixins -- ###########################
-from collections import ChainMap
-from invis import Invis, Function, NaturalNum, CMap
-import pytest
-
-# It is easier to test user defined classes in simple functions, other than one single
-# function that must care about each edge case.
-
-_builtins = {bytes, bytearray, complex, dict, float, int, list, set, str, tuple}
+############################## -- Function Keyword -- ################################
 
 
-def funk(a, b):
+def func(a, b):
     return a + b
 
 
-# A non exhaustive list of values to test on the following test functions.
-# The reason there is both e.g. [] and list, is to be able to test intializing the
-# 'Function' type with an empty [] as well as list. Both should fail, even if the latter
-# is callable.
+# A non exhaustive list of values to test on the following test function.
+# The reason there is both e.g. [] and list, is to be able to test trying to
+# initialize the 'Function' with both.
+# Both should fail, even if the latter is callable.
 values = [
-    ChainMap,
+    "hello",
     [],
     {},
     (),
     1,
     0,
+    4.0,
     -5,
-    dict,
-    "hello",
-    tuple,
-    list,
-    funk,
+    func,  # The function we defined above
     bytes,
     bytearray,
     complex,
@@ -80,6 +70,8 @@ values = [
     str,
     tuple,
 ]
+
+_builtins = {bytes, bytearray, complex, dict, float, int, list, set, str, tuple}
 
 
 def test_Function():
@@ -97,6 +89,9 @@ def test_Function():
             with pytest.raises((AssertionError, TypeError)):
                 Test(val)
 
+
+"""
+## Example of user-defined tests.
 
 def test_CMap():
     class Test(Invis):
