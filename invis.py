@@ -102,7 +102,7 @@ def inv(func):
     """
     sig = signature(func)
 
-    ann = dict(func.__annotations__)  # , func.__globals__.get("__annotations__", {}))
+    ann = func.__annotations__  # , ChainMap(func.__globals__.get("__annotations__", {}))
 
     @wraps(func)
     def wrapper(*args, **kwargs):
