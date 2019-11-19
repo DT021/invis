@@ -77,9 +77,9 @@ By adding the following code to "_invis.py"
 ```python
 # _invis.py
 from invis import Typed
+import numpy as np
 
 class NArray(Typed):
-    import numpy as np
 
     type = np.ndarray
 ```
@@ -110,9 +110,9 @@ The same applies for the method 'func' which only accepts a *numpy array*, other
 ```python
 # _invis.py 
 from invis import Typed, Descriptor
+import numpy as np
 
 class NArray(Typed):
-    import numpy as np
 
     type = np.ndarray
 
