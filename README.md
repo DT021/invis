@@ -87,7 +87,7 @@ class NP_ARRAY(Typed):
 
     type = np.ndarray
 ```
-We can now enforce type checking for "NArray" in any module of our project:
+We can now enforce type checking for "NP_ARRAY" in any module of our project:
 ```python
 #example 3.py
 from invis import Invis
