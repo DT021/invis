@@ -56,7 +56,11 @@ We could even initialize Kls with a method from a different class, since *it* is
 
 ## Customizing Invis: 
 Until now, all the type checking we did was 'against' builtin types, however every project has different needs and Invis easily adapts to them, with minimal coding from your side. 
-To enforce user-defined types, you must create a module named "_invis.py" at the root of your project (think of it as an Header file),  and inside that module define the types that you want to enforce on the classes/functions throughout your project.  
+To enforce user-defined types, you must create a module named "_invis.py" at the root of your project (think of it as an Header file),  and inside that module define the types that you want to enforce on the classes/functions throughout your project.
+
+*(**Suggestion:** after using Invis in my own projects, I came to the conclusion that it is easier to name all the "user-defined-types" classes in all capital letters instead of some alternative to the original name, assuming that the "ideal" (CamelCase) name is usually already taken by the object I want to enforce types of.   
+e.g, a class that would assert the type to be of pd.DataFrame, I would name it 'DATAFRAME', instead of 'DFrame')*
+
 Let's see an example: 
 ```
 . project
@@ -79,7 +83,7 @@ By adding the following code to "_invis.py"
 from invis import Typed
 import numpy as np
 
-class NArray(Typed):
+class NP_ARRAY(Typed):
 
     type = np.ndarray
 ```
@@ -90,9 +94,9 @@ from invis import Invis
 import numpy as np
 
 class Kls(Invis):
-    first: NArray
+    first: NP_ARRAY
     
-    def func(self, arr: NArray):
+    def func(self, arr: NP_ARRAY):
 	    return arr * self.first
 
 
@@ -112,32 +116,32 @@ The same applies for the method 'func' which only accepts a *numpy array*, other
 from invis import Typed, Descriptor
 import numpy as np
 
-class NArray(Typed):
+class NP_ARRAY(Typed):
 
     type = np.ndarray
 
 
-class Positive(Descriptor):
+class POSITIVE(Descriptor):
     @classmethod
     def check(cls, value):
         assert value > 0, f"value: {value} must be > 0"
         super().check(value)
 
 
-class NaturalNum(int, Positive):  # Mixin - instances must be both integer and >= 1
+class NATURAL_NUM(int, Positive):  # Mixin - instances must be both integer and >= 1
     pass
 ```
-We can then use *NaturalNum* in our own classes/functions the same way we used *NArray*:
+We can then use *NATURAL_NUM* in our own classes/functions the same way we used *NP_ARRAY*:
 ```python
 # example4.py
 from invis import Invis
 
 class Kls(Invis):
-    first: NaturalNum
+    first: NATURAL_NUM
 
 k = kls(1) # OK
 ```
-*(Notice that we didn't had to import *NaturalNum*, the same way that we didn't had to import *NArray* , once they are defined in the "_invis.py" module,  then they become available to all classes that derive from Invis)*
+*(Notice that we didn't had to import *NATURAL_NUM*, the same way that we didn't had to import *NP_ARRAY* , once they are defined in the "_invis.py" module,  then they become available to all classes that derive from Invis)*
 
 ### Now let's define two classes in two separate modules:
 *(And have the second module only accept objects that are of the type defined in the first module.)*
@@ -177,7 +181,8 @@ k.func(10)      # OK, returns 58
 ```
 Pretty cool, right? Invisible type checking of user defined classes, in different modules, at runtime, without the need to write any extra code other than the import statement. Try it in a REPL.
 
-*Note that we didn't add anything to "_invis.py", hence the type "Person" must be imported from the module where it is defined to the module where we want to use it.*
+*Note that we didn't add the type "Person" to "_invis.py", hence it must be imported from the module where it is defined to the module where we want to use/enforce it. 
+Additionally, even if Person is considered a "user-defined-type" by the framework, because I am explicitly importing it at the top of the module, it's clear that the class is defined somewhere other than in _invis.py, which by itself doesn't require explicit imports of the classes defined within, and so there's no need for the all capital naming (e.g. PERSON) suggestion given before in this tutorial.*
 
 ### Inheritance without initialization:
 
@@ -200,7 +205,7 @@ class Kls_1(Original):
         return "func1"
 
 class Kls_2(Kls_1):
-    first: NArray
+    first: NP_ARRAY
     second: float
 
     def func2(self):
@@ -239,11 +244,11 @@ To enforce type checking of user defined types (those that we previously defined
 
 ```python
 # example 8.py
-from invis import inv, Function, NaturalNum, NArray 
+from invis import inv, Function, NATURAL_NUM, NP_ARRAY 
 import numpy as np
 
 @inv
-def func(a:Function, b:NArray, c: NaturalNum):
+def func(a:Function, b:NP_ARRAY, c: NATURAL_NUM):
     return a(b * c)
 
 array = np.array([1,2,3])
