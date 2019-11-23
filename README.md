@@ -13,6 +13,7 @@ It is distributed as a single file with no extra dependencies other than the Pyt
 ## Basic example using Python builtins:
 ```python
 # example1.py
+
 from invis import Invis
 
 class Kls(Invis):
@@ -32,6 +33,7 @@ If after initialization we try to change one of the attribute values and we don'
  *(This keyword is predefined in Invis's source code and is meant to represent a [callable](https://docs.python.org/3/library/functions.html#callable) in python, in other words, it enforces that the argument passed to it must be *callable*, much like the keyword 'int' enforces that the argument must be an integer. It is the only keyword added by the framework.)*
 ```python
 # example2.py
+
 from invis import Invis
 
 def func(x, y):
@@ -80,8 +82,9 @@ Let's see an example:
 By adding the following code to "_invis.py"
 ```python
 # _invis.py
-from invis import Typed
+
 import numpy as np
+from invis import Typed
 
 class NP_ARRAY(Typed):
 
@@ -90,8 +93,9 @@ class NP_ARRAY(Typed):
 We can now enforce type checking for "NP_ARRAY" in any module of our project:
 ```python
 #example 3.py
-from invis import Invis
+
 import numpy as np
+from invis import Invis
 
 class Kls(Invis):
     first: NP_ARRAY
@@ -113,8 +117,9 @@ The same applies for the method 'func' which only accepts a *numpy array*, other
 *By appending the following two classes, 'Positive' and 'NaturalNum'*
 ```python
 # _invis.py 
-from invis import Typed, Descriptor
+
 import numpy as np
+from invis import Typed, Descriptor
 
 class NP_ARRAY(Typed):
 
@@ -134,6 +139,7 @@ class NATURAL_NUM(int, POSITIVE):  # Mixin - instances must be both integer and 
 We can then use *NATURAL_NUM* in our own classes/functions the same way we used *NP_ARRAY*:
 ```python
 # example4.py
+
 from invis import Invis
 
 class Kls(Invis):
@@ -146,10 +152,10 @@ k = kls(0) # ERROR: must be an integer >= 1
 ### Now let's define two classes in two separate modules:
 *(And have the second module only accept objects that are of the type defined in the first module.)*
 ```python
-# example5.py
-# module1.py
-from invis import Invis
+# example5.py | module1.py
+
 from dataclasses import field # To use the field keyword, we must import it.
+from invis import Invis
 
 class Person(Invis):
     name: str
@@ -160,8 +166,8 @@ ed = Person(name="Edward", age=36)
 jul = Person(name="Julian", age=48, info={'Australian': True})
 ```
 ```python
-# example5.py
-# module2.py
+# example5.py | module2.py
+
 from invis import Invis
 from package1.module1 import Person, ed, jul
 
@@ -182,7 +188,7 @@ k.func(10)      # OK, returns 58
 Pretty cool, right? Invisible type checking of user defined classes, in different modules, at runtime, without the need to write any extra code other than the import statement. Try it in a REPL.
 
 *Note that we didn't add the type "Person" to "_invis.py", hence it must be imported from the module where it is defined to the module where we want to use/enforce it. 
-Additionally, even if Person is considered a "user-defined-type" by the framework, because I am explicitly importing it at the top of the module, it's clear that the class is defined somewhere other than in _invis.py, which by itself doesn't require explicit imports of the classes defined within, and so there's no need for the all capital naming (e.g. PERSON) suggestion given before in this tutorial.*
+Additionally, even if Person is considered a "user-defined-type" by the framework, because we are explicitly importing it at the top of the module, it's clear that the class is defined somewhere other than in _invis.py, which by itself doesn't require explicit imports of the classes defined within, and so there's no need for the all capital naming (e.g. PERSON) suggestion given before in this tutorial.*
 
 ### Inheritance without initialization:
 
@@ -190,8 +196,9 @@ Additionally, even if Person is considered a "user-defined-type" by the framewor
 
 ```python
 # example6.py
-from invis import Invis
+
 from dataclasses import field
+from invis import Invis
 
 class Original(Invis):	# Defining Original as an interface
     pass
@@ -230,6 +237,7 @@ k.func3(10)     # Returns 20
 *To enforce types in  random functions (those outside of a class that inherits from *Invis*), we can import a decorator 'inv'.*
 ```python
 # example7.py
+
 from invis import inv
 
 @inv
@@ -244,8 +252,9 @@ To enforce type checking of user defined types (those that we previously defined
 
 ```python
 # example 8.py
-from invis import inv, Function, NATURAL_NUM, NP_ARRAY 
+
 import numpy as np
+from invis import inv, Function, NATURAL_NUM, NP_ARRAY 
 
 @inv
 def func(a:Function, b:NP_ARRAY, c: NATURAL_NUM):
@@ -258,6 +267,8 @@ func(max, array, 2)     # Returns 6
 #### To customize the dataclass parameters:
 
 ```python
+# example9.py
+
 from invis import Invis
 
 class Kls(Invis, params=dict(repr=False)): # We must pass a dictionary named "params"
