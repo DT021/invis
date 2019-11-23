@@ -118,8 +118,6 @@ class NATURAL_NUM(int, POSITIVE):  # Mixin - instances must be both integer and 
 
 """
 """
-
-
 def test_CMAP():
     class Test(Invis):
         first: CMAP
