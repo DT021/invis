@@ -197,7 +197,7 @@ class Base(metaclass=BaseMeta):
                 pass  # Already deleted.
 
         # dataclass parameters customization.
-        if not "params" in cls.__dict__:
+        if "params" not in cls.__dict__:
             cls = dataclass(cls)
         else:
             assert isinstance(cls.__dict__["params"], dict), "params must be a dict"
