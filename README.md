@@ -139,7 +139,7 @@ from invis import Invis
 class Kls(Invis):
     first: NATURAL_NUM
 
-k = kls(1) # OK
+k = kls(0) # ERROR: must be an integer >= 1
 ```
 *(Notice that we didn't had to import *NATURAL_NUM*, the same way that we didn't had to import *NP_ARRAY* , once they are defined in the "_invis.py" module,  then they become available to all classes that derive from Invis)*
 
