@@ -6,9 +6,9 @@ Since Invis purpose is to assert types, it's a bit contrived to write assertion 
 nevertheless the following covers ~97% of the builtins + the Function keyword.
 (The only types that Invis accepts if you dont add a "_invis.py")
 
-Additionally, there is some commented code that was used to test some of the examples 
+Additionally, there is some commented code that was used to test some of the examples
 from the README.md.
-Such can be used by each user as a starting point to write its own tests for its own 
+Such can be used by each user as a starting point to write its own tests for its own
 defined types.
 """
 
