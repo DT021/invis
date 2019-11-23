@@ -86,6 +86,8 @@ By adding the following code to "_invis.py"
 import numpy as np
 from invis import Typed
 
+__all__ = ['NP_ARRAY']
+
 class NP_ARRAY(Typed):
 
     type = np.ndarray
@@ -120,6 +122,8 @@ The same applies for the method 'func' which only accepts a *numpy array*, other
 
 import numpy as np
 from invis import Typed, Descriptor
+
+__all__ = ['NP_ARRAY', 'NATURAL_NUM']
 
 class NP_ARRAY(Typed):
 
