@@ -92,8 +92,8 @@ def test_Function():
 
 """
 # The classes (test_CMAP and test_NATURAL_NUM) found at the end of this file,
-# are presented as a starting point for you to implement your own tests.
-# They assume that you previously defined the following code in a module called _invis.py
+# serve as an example/starting point for you to implement your own tests of your own defined types.
+# The following code must be defined in a module called _invis.py
 
 # _invis.py
 
