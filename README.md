@@ -299,5 +299,4 @@ I would suggest, however, is that you submit any cool ideas/features/approaches 
  [The Fun of Reinvention](https://www.youtube.com/watch?v=5nXmq1PsoJ0&t).
  - Also essential to this project was the work done by [Eric Smith](https://github.com/ericvsmith), author of dataclasses, which lay the foundation for Invis.
 - I have used [Black](https://github.com/psf/black), by [Łukasz Langa](https://github.com/ambv), which turned out to be a proper partner in crime. 
- 
 - One last acknowledgment for the Python core-developers, and all others, who keep making Python a better programming language, version after version.
