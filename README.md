@@ -4,7 +4,7 @@ Invis is an invisible framework which purpose is to enforce type checking of bot
 
 It is distributed as a single file with no extra dependencies other than the Python Standard Library (>= 3.7).
 
-#### Installation:
+#### Installation
 `python -m pip install git+https://github.com/dxflores/invis.git`
 
 
