@@ -91,11 +91,38 @@ def test_Function():
 
 
 """
-## Example of user-defined tests.
+# The classes (test_CMAP and test_NATURAL_NUM) found at the end of this file,
+# are presented as a starting point for you to implement your own tests.
+# They assume that you previously defined the following code in a module called _invis.py
 
-def test_CMap():
+# _invis.py
+
+from collections import ChainMap
+from invis import Invis, Typed, Descriptor
+
+__all__ = ['CMAP', 'NATURAL_NUM']
+
+class CMAP(Typed):
+
+    type = ChainMap
+
+class POSITIVE(Descriptor):
+    @classmethod
+    def check(cls, value):
+        assert value > 0, f"value: {value} must be > 0"
+        super().check(value)
+
+
+class NATURAL_NUM(int, POSITIVE):  # Mixin - instances must be both integer and >= 1
+    pass
+
+"""
+"""
+
+
+def test_CMAP():
     class Test(Invis):
-        first: CMap
+        first: CMAP
 
     for val in values:
         if not hasattr(val, "type"):
@@ -112,9 +139,9 @@ def test_CMap():
                 Test(val)
 
 
-def test_NaturalNum():
+def test_NATURAL_NUM():
     class Test(Invis):
-        first: NaturalNum
+        first: NATURAL_NUM
 
     for val in values:
         if type(val) == int:
