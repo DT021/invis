@@ -10,7 +10,7 @@ It is distributed as a single file with no extra dependencies other than the Pyt
 
 *The following documentation will be presented in a tutorial style.*
 
-## Basic example using Python builtins:
+## Basic example using Python builtins
 ```python
 # example1.py
 
@@ -29,7 +29,7 @@ If after initialization we try to change one of the attribute values and we don'
 
 *This is the essence of Invis, to make type checking/enforcing invisible to the end user, yet highly customizable to the library/framework author, as we will see below.*
 
-## The 'Function' keyword:
+## The 'Function' keyword
  *(This keyword is predefined in Invis's source code and is meant to represent a [callable](https://docs.python.org/3/library/functions.html#callable) in python, in other words, it enforces that the argument passed to it must be *callable*, much like the keyword 'int' enforces that the argument must be an integer. It is the only keyword added by the framework.)*
 ```python
 # example2.py
@@ -56,11 +56,11 @@ We could even initialize Kls with a method from a different class, since *it* is
 
 *(We will see below, on the *"Bonus"* part of this tutorial, how we could force *func* to only accept a specific type of argument when we call it.)*
 
-## Customizing Invis: 
+## Customizing Invis 
 Until now, all the type checking we did was 'against' builtin types, however every project has different needs and Invis easily adapts to them, with minimal coding from your side. 
 To enforce user-defined types, you must create a module named "_invis.py" at the root of your project (think of it as an Header file),  and inside that module define the types that you want to enforce on the classes/functions throughout your project.
 
-*(**Suggestion:** after using Invis in my own projects for a while, I grew fan of naming all my "user-defined-types" classes in all capital letters instead of some alternative to the original name, assuming that the ideal (CamelCase) name is already taken by the object I want to enforce types of.  
+*(**Suggestion** after using Invis in my own projects for a while, I grew fan of naming all my "user-defined-types" classes in all capital letters instead of some alternative to the original name, assuming that the ideal (CamelCase) name is already taken by the object I want to enforce types of.  
 e.g. a class that would assert the type to be of pd.DataFrame, I would name it 'DATAFRAME', instead of 'DFrame' or 'DataF'.
 This somehow blends with pep8, which defines that all capital letters should only be used for constants - I think of these classes as "constant-types")*
 
@@ -116,7 +116,7 @@ k.func(arr2)	# returns array([ 4, 10, 18])
 And unless we initialize *Kls* with a *numpy array* we will get an error. 
 The same applies for the method 'func' which only accepts a *numpy array*, otherwise it will throw an error.
 
-### We can expand "_invis.py" to accommodate for techniques such as Mixins: 
+### We can expand "_invis.py" to accommodate for techniques such as Mixins 
 *By appending the following two classes, 'Positive' and 'NaturalNum'*
 ```python
 # _invis.py 
@@ -154,7 +154,7 @@ k = kls(0) # ERROR: must be an integer >= 1
 ```
 *(Notice that we didn't had to import *NATURAL_NUM*, the same way that we didn't had to import *NP_ARRAY* , once they are defined in the "_invis.py" module,  then they become available to all classes that derive from Invis)*
 
-### Now let's define two classes in two separate modules:
+### Now let's define two classes in two separate modules
 *(And have the second module only accept objects that are of the type defined in the first module.)*
 ```python
 # example5.py | module1.py
@@ -195,7 +195,7 @@ Pretty cool, right? Invisible type checking of user defined classes, in differen
 *Note that we didn't add the type "Person" to "_invis.py", hence it must be imported from the module where it is defined to the module where we want to use/enforce it. 
 Additionally, even if Person is considered a "user-defined-type" by the framework, because we are explicitly importing it at the top of the module, it's clear that the class is defined somewhere other than in _invis.py, which by itself doesn't require explicit imports of the classes defined within, and so there's no need for the all capital naming (e.g. PERSON) suggestion given before in this tutorial.*
 
-### Inheritance without initialization:
+### Inheritance without initialization
 
 *(The following example shows another feature of Invis, which is the ability to inherit from other Invis classes without having to initialize its attributes, yet still have access to all the methods, as well as class variables defined in the inheritance chain)*
 
@@ -238,7 +238,7 @@ k.func1()       # Returns "func1"
 k.func3(10)     # Returns 20
 ```
 
-## Bonus:
+## Bonus
 *To enforce types in  random functions (those outside of a class that inherits from *Invis*), we can import a decorator 'inv'.*
 ```python
 # example7.py
@@ -269,7 +269,7 @@ array = np.array([1,2,3])
 func(max, array, 2)     # Returns 6
 ```
 
-#### To customize the dataclass parameters:
+#### To customize the dataclass parameters
 
 ```python
 # example9.py
@@ -283,17 +283,17 @@ k = Kls(5) # No repr
 ```
 *You can find all available parameters and their functionality in the official [dataclasses](https://docs.python.org/3/library/dataclasses.html) documentation.*
 
-#### End of tutorial.
+#### End of tutorial
 ___
 
-## Contributing:
+## Contributing
 
 Both bug reports and pull/feature requests are welcomed, and the latter will be considered, nevertheless I would like to be explicit on my vision for this project.  
 I want to keep *Invis* lean so each user will be able to hack it, if they deem necessary, to fit their project needs without having to read through endless lines of code.
 Given the above and the fact that the source code is thoroughly commented, it might seem almost enticing to start adding features, but I will defer those unless they prove to be for the "greater good" and not project specific.
 I would suggest, however, is that you submit any cool ideas/features/approaches of how you use Invis in your project to the /examples page so everyone can drive inspiration from them.
 
-## Acknowledgments:
+## Acknowledgments
 
  - This project was inspired by, and builds upon, the ideas presented by [David Beazley](https://github.com/dabeaz) in his talk 
  [The Fun of Reinvention](https://www.youtube.com/watch?v=5nXmq1PsoJ0&t).
