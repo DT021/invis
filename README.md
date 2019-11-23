@@ -128,7 +128,7 @@ class POSITIVE(Descriptor):
         super().check(value)
 
 
-class NATURAL_NUM(int, Positive):  # Mixin - instances must be both integer and >= 1
+class NATURAL_NUM(int, POSITIVE):  # Mixin - instances must be both integer and >= 1
     pass
 ```
 We can then use *NATURAL_NUM* in our own classes/functions the same way we used *NP_ARRAY*:
