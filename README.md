@@ -281,8 +281,7 @@ k = Kls(5) # No repr
 ```
 *You can find all available parameters and their functionality in the official [dataclasses](https://docs.python.org/3/library/dataclasses.html) documentation.*
 
-#### End of tutorial
-___
+**End of tutorial**
 
 ## Contributing
 
