@@ -53,7 +53,7 @@ Notice that we are initializing both instances of *Kls* with only one argument, 
 Given that both attributes are (and must be) callable,  then we can just call them with different values.
 We could even initialize Kls with a method from a different class, since *it* is also callable.
 
-*(We will see below, on the "Bonus" part of this tutorial, how we could force *func* to only accept a specific type of argument when we call it.)*
+*(We will see below, on the "Bonus" part of this tutorial, how we could force "func" to only accept a specific type of argument when we call it.)*
 
 ## Customizing Invis 
 Until now, all the type checking we did was 'against' builtin types, however every project has different needs and Invis easily adapts to them, with minimal coding from your side. 
