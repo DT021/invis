@@ -29,7 +29,7 @@ def test_permutations_builtins():
         # than the current attribute type of the class Test, assume it will raise an
         # error. If it is equal, assume it will not.
         for elem in values:
-            if type(elem) != type(val):
+            if not isinstance(elem, type(val)):
                 with pytest.raises(AssertionError):
                     Test(elem)  # Raises an error. Initialized with a different type.
             else:
@@ -119,7 +119,7 @@ class NATURAL_NUM(int, POSITIVE):  # Mixin - instances must be both integer and 
 
 """
 
-# And test that it does what you expect with the following code:
+# And then test that it does what you expect with the following code:
 """
 def test_CMAP():
     class Test(Invis):
