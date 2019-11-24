@@ -52,11 +52,11 @@ class Typed(Descriptor):
                     if not callable(value):
                         raise AssertionError(f"{ERROR}: {type(value)}")
                 else:
-                    raise TypeError(f"{ERROR}: {value}")
+                    raise AssertionError(f"{ERROR}: {value}")
             else:
                 # In case of an empty builtin e.g. []
                 if isinstance(value, _builtins):
-                    raise TypeError(f"{ERROR} empty: {type(value)}")
+                    raise AssertionError(f"{ERROR} empty: {type(value)}")
         else:
             if not isinstance(value, cls.type):
                 raise AssertionError(f"Expected: {cls.type} got: {type(value)}")
