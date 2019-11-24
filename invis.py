@@ -44,7 +44,7 @@ class Typed(Descriptor):
 
     @classmethod
     def check(cls, value):
-        ERROR = "Expected: <class 'function'> but got:"
+        ERROR = "Expected: <class 'function'> but got"
 
         if cls.__qualname__ == "Function":
             if value:  # Not None
