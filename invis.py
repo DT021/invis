@@ -54,7 +54,7 @@ class Typed(Descriptor):
                 else:
                     raise TypeError(f"Expected: <class 'function'> got: {value}")
             else:
-                # In case you of an empty builtin e.g. []
+                # In case of an empty builtin e.g. []
                 if isinstance(value, _builtins):
                     raise TypeError(
                         f"Expected: <class 'function'> got: empty {type(value)}"
