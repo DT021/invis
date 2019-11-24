@@ -36,7 +36,7 @@ class Descriptor:
 
 
 # There are multiple ways to access the builtins but this seems to be the most explicit.
-_builtins = {bytes, bytearray, complex, dict, float, int, list, set, str, tuple}
+_builtins = (bytes, bytearray, complex, dict, float, int, list, set, str, tuple)
 
 
 class Typed(Descriptor):
@@ -47,22 +47,22 @@ class Typed(Descriptor):
         if cls.__qualname__ == "Function":
             if value:  # Not None
                 if value not in _builtins:
-                    assert callable(
-                        value
-                    ), f"Expected: <class 'function'> got: {type(value)}"
+                    if not callable(value):
+                        raise AssertionError(
+                            f"Expected: <class 'function'> got: {type(value)}"
+                        )
                 else:
                     raise TypeError(f"Expected: <class 'function'> got: {value}")
             else:
-                # In case you pass an empty builtin e.g. []
-                if type(value) in _builtins:
+                # In case you of an empty builtin e.g. []
+                if isinstance(value, _builtins):
                     raise TypeError(
                         f"Expected: <class 'function'> got: empty {type(value)}"
                     )
-
         else:
-            assert isinstance(
-                value, cls.type
-            ), f"Expected: {cls.type} got: {type(value)}"
+            if not isinstance(value, cls.type):
+                raise AssertionError(f"Expected: {cls.type} got: {type(value)}")
+
         super().check(value)
 
 
@@ -98,11 +98,11 @@ except ImportError:
 
 def inv(func):
     """
-    Checks functions + type assertion.
+    Checks function signatures + type assertion.
     """
     sig = signature(func)
 
-    ann = func.__annotations__  # , ChainMap(func.__globals__.get("__annotations__", {}))
+    ann = func.__annotations__
 
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -118,10 +118,10 @@ def inv(func):
                     except IndexError:
                         pass  # The class is not a Mixin, yet it's defined in _invis.py
                     else:
-                        assert isinstance(
-                            val, ann[name].type
-                        ), f"Expected {val} to be of type:{ann[name].type} got:{type(val)}"
-
+                        if not isinstance(val, ann[name].type):
+                            raise AssertionError(
+                                f"Expected {val}to be of type:{ann[name].type} got:{type(val)}"
+                            )
                         # Delete the attribute that was just assigned, otherwise type
                         # checking won't be enforced in consequent instances of the class
                         # because the if statement above will be ignored since ann[name]
@@ -133,9 +133,10 @@ def inv(func):
                 try:
                     ann[name].check(val)
                 except AttributeError:  # builtins don't have a .check() attribute
-                    assert isinstance(
-                        val, ann[name]
-                    ), f"Expected {val} to be of type: {ann[name]} but got: {type(val)}"
+                    if not isinstance(val, ann[name]):
+                        AssertionError(
+                            f"Expected {val} to be of type: {ann[name]} but got: {type(val)}"
+                        )
             else:
                 continue
         return func(*args, **kwargs)
@@ -200,20 +201,24 @@ class Base(metaclass=BaseMeta):
         if "params" not in cls.__dict__:
             cls = dataclass(cls)
         else:
-            assert isinstance(cls.__dict__["params"], dict), "params must be a dict"
+            if not isinstance(cls.__dict__["params"], dict):
+                raise AssertionError("params must be a dict")
 
             # Default dataclass parameters
-            args = dict(
-                init=True,
-                repr=True,
-                eq=True,
-                order=False,
-                unsafe_hash=False,
-                frozen=False,
-            )
+            args = {
+                "init": True,
+                "repr": True,
+                "eq": True,
+                "order": False,
+                "unsafe_hash": False,
+                "frozen": False,
+            }
+
             for key, value in cls.__dict__["params"].items():
-                assert key in args, f"params must be one of: {args.keys()}"
-                assert isinstance(value, bool), "value must be a Boolean"
+                if key not in args or not isinstance(value, bool):
+                    raise AssertionError(
+                        f"params must be one of: {args.keys()}, and {value} must be a Boolean"
+                    )
             cls = dataclass(cls, **cls.__dict__["params"])
 
         # This allows for a subclass of (Base, Typed) to be used as an interface.
@@ -245,4 +250,5 @@ class Invis(Base, Typed):
     """
     This is the (empty) class you import when you do: from invis import Invis.
     """
+
     pass
