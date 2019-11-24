@@ -267,7 +267,7 @@ array = np.array([1,2,3])
 func(max, array, 2)     # Returns 6
 ```
 
-#### To customize the dataclass parameters
+**To customize the dataclass parameters**
 
 ```python
 # example9.py
