@@ -50,7 +50,7 @@ class Typed(Descriptor):
             if value:  # Not None
                 if value not in _builtins:
                     if not callable(value):
-                        raise AssertionError(f"{ERROR}: {type(value)}")
+                        raise TypeError(f"{ERROR}: {type(value)}")
                 else:
                     raise TypeError(f"{ERROR}: {value}")
             else:
@@ -59,7 +59,7 @@ class Typed(Descriptor):
                     raise TypeError(f"{ERROR} empty: {type(value)}")
         else:
             if not isinstance(value, cls.type):
-                raise AssertionError(f"Expected: {cls.type} got: {type(value)}")
+                raise TypeError(f"Expected: {cls.type} got: {type(value)}")
 
         super().check(value)
 
@@ -117,7 +117,7 @@ def inv(func):
                         pass  # The class is not a Mixin, yet it's defined in _invis.py
                     else:
                         if not isinstance(val, ann[name].type):
-                            raise AssertionError(
+                            raise TypeError(
                                 f"""Expected {val} to be of type:{ann[name].type} but
                                 got: {type(val)}"""
                             )
@@ -133,7 +133,7 @@ def inv(func):
                     ann[name].check(val)
                 except AttributeError:  # builtins don't have a .check() attribute
                     if not isinstance(val, ann[name]):
-                        AssertionError(
+                        TypeError(
                             f"Expected {val} to be of type: {ann[name]} but got: {type(val)}"
                         )
             else:
@@ -201,7 +201,7 @@ class Base(metaclass=BaseMeta):
             cls = dataclass(cls)
         else:
             if not isinstance(cls.__dict__["params"], dict):
-                raise AssertionError("params must be a dict")
+                raise TypeError("params must be a dict")
 
             # Default dataclass parameters
             args = {
