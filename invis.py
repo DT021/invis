@@ -44,21 +44,19 @@ class Typed(Descriptor):
 
     @classmethod
     def check(cls, value):
+        ERROR = "Expected: <class 'function'> but got:"
+
         if cls.__qualname__ == "Function":
             if value:  # Not None
                 if value not in _builtins:
                     if not callable(value):
-                        raise AssertionError(
-                            f"Expected: <class 'function'> got: {type(value)}"
-                        )
+                        raise AssertionError(f"{ERROR}: {type(value)}")
                 else:
-                    raise TypeError(f"Expected: <class 'function'> got: {value}")
+                    raise TypeError(f"{ERROR}: {value}")
             else:
-                # In case you of an empty builtin e.g. []
+                # In case of an empty builtin e.g. []
                 if isinstance(value, _builtins):
-                    raise TypeError(
-                        f"Expected: <class 'function'> got: empty {type(value)}"
-                    )
+                    raise TypeError(f"{ERROR} empty: {type(value)}")
         else:
             if not isinstance(value, cls.type):
                 raise AssertionError(f"Expected: {cls.type} got: {type(value)}")
@@ -120,7 +118,8 @@ def inv(func):
                     else:
                         if not isinstance(val, ann[name].type):
                             raise AssertionError(
-                                f"Expected {val}to be of type:{ann[name].type} got:{type(val)}"
+                                f"""Expected {val} to be of type:{ann[name].type} but
+                                got: {type(val)}"""
                             )
                         # Delete the attribute that was just assigned, otherwise type
                         # checking won't be enforced in consequent instances of the class
