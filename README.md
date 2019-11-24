@@ -29,7 +29,7 @@ If after initialization we try to change one of the attribute values and we don'
 *This is the essence of Invis, to make type checking/enforcing invisible to the end user, yet highly customizable to the library/framework author, as we will see below.*
 
 ## The 'Function' keyword
-*(This keyword is predefined in Invis's source code and is meant to represent a [callable](https://docs.python.org/3/library/functions.html#callable) in python, in other words, it enforces that the argument passed to it must be *callable*, much like the keyword 'int' enforces that the argument must be an integer. It is the only keyword added by the framework.)*
+*(This keyword is predefined in Invis's source code and is meant to represent a [callable](https://docs.python.org/3/library/functions.html#callable) in python, in other words, it enforces that the argument passed to it must be callable, much like the keyword 'int' enforces that the argument must be an integer. It is the only keyword added by the framework.)*
 ```python
 # example2.py
 
@@ -59,7 +59,7 @@ We could even initialize Kls with a method from a different class, since *it* is
 Until now, all the type checking we did was 'against' builtin types, however every project has different needs and Invis easily adapts to them, with minimal coding from your side. 
 To enforce user-defined types, you must create a module named "_invis.py" at the root of your project (think of it as an Header file),  and inside that module define the types that you want to enforce on the classes/functions throughout your project.
 
-*(**Suggestion** after using Invis in my own projects for a while, I grew fan of naming all my "user-defined-types" classes in all capital letters instead of some alternative to the original name, assuming that the ideal (CamelCase) name is already taken by the object I want to enforce types of.  
+*(Suggestion: after using Invis in my own projects for a while, I grew fan of naming all my "user-defined-types" classes in all capital letters instead of some alternative to the original name, assuming that the ideal (CamelCase) name is already taken by the object I want to enforce types of.  
 e.g. a class that would assert the type to be of pd.DataFrame, I would name it 'DATAFRAME', instead of 'DFrame' or 'DataF'.
 This somehow blends with pep8, which defines that all capital letters should only be used for constants - I think of these classes as "constant-types")*
 
@@ -296,7 +296,7 @@ I would suggest, however, is that you submit any cool ideas/features/approaches 
 
 - This project was inspired by, and builds upon, the ideas presented by [David Beazley](https://github.com/dabeaz) in his talk [The Fun of Reinvention](https://www.youtube.com/watch?v=5nXmq1PsoJ0&t).
 
- - Also essential to this project was the work done by [Eric Smith](https://github.com/ericvsmith), author of dataclasses, which lay the foundation for Invis.
+- Also essential to this project was the work done by [Eric Smith](https://github.com/ericvsmith), author of dataclasses, which lay the foundation for Invis.
  
 - I have used [Black](https://github.com/psf/black), by [Łukasz Langa](https://github.com/ambv), which turned out to be a proper partner in crime.
 
