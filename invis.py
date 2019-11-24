@@ -50,7 +50,7 @@ class Typed(Descriptor):
             if value:  # Not None
                 if value not in _builtins:
                     if not callable(value):
-                        raise TypeError(f"{ERROR}: {type(value)}")
+                        raise AssertionError(f"{ERROR}: {type(value)}")
                 else:
                     raise TypeError(f"{ERROR}: {value}")
             else:
