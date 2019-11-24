@@ -48,9 +48,9 @@ We could even initialize Kls with a method from a different class, since *it* is
 Until now, all the type checking we did was 'against' builtin types, however every project has different needs and Invis easily adapts to them, with minimal coding from your side. 
 To enforce user-defined types, you must create a module named "_invis.py" at the root of your project (think of it as an Header file),  and inside that module define the types that you want to enforce on the classes/functions throughout your project.
 
-*(Suggestion: after using Invis in my own projects for a while, I grew fan of naming all my "user-defined-types" classes in all capital letters instead of some alternative to the original name, assuming that the ideal (CamelCase) name is already taken by the object I want to enforce types of.  
+(Suggestion: after using Invis in my own projects for a while, I grew fan of naming all my "user-defined-types" classes in all capital letters instead of some alternative to the original name, assuming that the ideal (CamelCase) name is already taken by the object I want to enforce types of.  
 e.g. a class that would assert the type to be of pd.DataFrame, I would name it 'DATAFRAME', instead of 'DFrame' or 'DataF'.  
-This somehow blends with pep8, which defines that all capital letters should only be used for constants - I think of these classes as "constant-types")*
+This somehow blends with pep8, which defines that all capital letters should only be used for constants - I think of these classes as "constant-types")
 
 Let's see an example: 
 ```
