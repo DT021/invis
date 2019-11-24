@@ -90,11 +90,12 @@ def test_Function():
                 Test(val)
 
 
-"""
 # The classes (test_CMAP and test_NATURAL_NUM) found at the end of this file,
-# serve as an example/starting point for you to implement your own tests of your own defined types.
-# The following code must be defined in a module called _invis.py
+# serve as an example/starting point for you to implement your own tests of your own
+# defined types.
 
+# First, define the following code in a module called _invis.py:
+"""
 # _invis.py
 
 from collections import ChainMap
@@ -117,6 +118,8 @@ class NATURAL_NUM(int, POSITIVE):  # Mixin - instances must be both integer and 
     pass
 
 """
+
+# And test that it does what you expect with the following code:
 """
 def test_CMAP():
     class Test(Invis):
