@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/dxflores/invis.svg?branch=master)](https://travis-ci.org/dxflores/invis)
 # Invis
 
 Invis is an invisible framework which purpose is to enforce type checking of both builtins as well as user defined types at **runtime**. 
