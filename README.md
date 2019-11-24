@@ -3,7 +3,7 @@
 Invis is an invisible framework which purpose is to enforce type checking of both builtins as well as user defined types at **runtime**. 
 It is distributed as a single file with no extra dependencies other than the Python Standard Library (>= 3.7).
 
-To install: `python -m pip install git+https://github.com/dxflores/invis.git`
+To install: `pip install invis`
 
 A comprehensive tutorial on how to use the framework can be found
 [here](https://github.com/dxflores/invis/tree/master/examples/tutorial.md)
