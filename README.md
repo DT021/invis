@@ -249,10 +249,7 @@ def func(a:int, b: float):
 
 func(2, 3.0)
 ```
-Albeit, the above example only works for checking 'against' builtin types. 
-
-To enforce type checking of user defined types (those that we previously defined in "_invis.py") we must import them explicitly.
-
+Albeit, the above example only works for checking 'against' builtin types, to enforce type checking of user defined types (those that we previously defined in "_invis.py") we must import them explicitly, as shown below:
 ```python
 # example 8.py
 
@@ -279,7 +276,7 @@ class Kls(Invis, params=dict(repr=False)): # We must pass a dictionary named "pa
 
 k = Kls(5) # No repr
 ```
-*You can find all available parameters and their functionality in the official [dataclasses](https://docs.python.org/3/library/dataclasses.html) documentation.*
+You can find all available parameters and their functionality in the official [dataclasses](https://docs.python.org/3/library/dataclasses.html) documentation.
 
 **End of tutorial**
 
@@ -292,7 +289,7 @@ I would suggest, however, is that you submit any cool ideas/features/approaches 
 
 ## Acknowledgments
 
-- This project was inspired by, and builds upon, the ideas presented by [David Beazley](https://github.com/dabeaz) in his talk [The Fun of Reinvention](https://www.youtube.com/watch?v=5nXmq1PsoJ0&t).
-- Also essential to this project was the work done by [Eric Smith](https://github.com/ericvsmith), author of dataclasses, which lay the foundation for Invis.
-- I have used [Black](https://github.com/psf/black), by [Łukasz Langa](https://github.com/ambv), which turned out to be a proper partner in crime.
+- This project was inspired by, and builds upon, the ideas presented by [David Beazley](https://github.com/dabeaz) in his talk [The Fun of Reinvention](https://www.youtube.com/watch?v=5nXmq1PsoJ0&t). 
+- Also essential to this project was the work done by [Eric Smith](https://github.com/ericvsmith), author of dataclasses, which lay the foundation for Invis. 
+- I have used [Black](https://github.com/psf/black), by [Łukasz Langa](https://github.com/ambv), which turned out to be a proper partner in crime.  
 - One last acknowledgment for the Python core-developers, and all others, who keep making Python a better programming language, version after version.
