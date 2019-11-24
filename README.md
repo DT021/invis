@@ -7,7 +7,6 @@ It is distributed as a single file with no extra dependencies other than the Pyt
 #### Installation
 `python -m pip install git+https://github.com/dxflores/invis.git`
 
-
 *The following documentation will be presented in a tutorial style.*
 
 ## Basic example using Python builtins
@@ -30,7 +29,7 @@ If after initialization we try to change one of the attribute values and we don'
 *This is the essence of Invis, to make type checking/enforcing invisible to the end user, yet highly customizable to the library/framework author, as we will see below.*
 
 ## The 'Function' keyword
- *(This keyword is predefined in Invis's source code and is meant to represent a [callable](https://docs.python.org/3/library/functions.html#callable) in python, in other words, it enforces that the argument passed to it must be *callable*, much like the keyword 'int' enforces that the argument must be an integer. It is the only keyword added by the framework.)*
+*(This keyword is predefined in Invis's source code and is meant to represent a [callable](https://docs.python.org/3/library/functions.html#callable) in python, in other words, it enforces that the argument passed to it must be *callable*, much like the keyword 'int' enforces that the argument must be an integer. It is the only keyword added by the framework.)*
 ```python
 # example2.py
 
@@ -54,7 +53,7 @@ Notice that we are initializing both instances of *Kls* with only one argument, 
 Given that both attributes are (and must be) callable,  then we can just call them with different values.
 We could even initialize Kls with a method from a different class, since *it* is also callable.
 
-*(We will see below, on the *"Bonus"* part of this tutorial, how we could force *func* to only accept a specific type of argument when we call it.)*
+*(We will see below, on the "Bonus" part of this tutorial, how we could force *func* to only accept a specific type of argument when we call it.)*
 
 ## Customizing Invis 
 Until now, all the type checking we did was 'against' builtin types, however every project has different needs and Invis easily adapts to them, with minimal coding from your side. 
@@ -152,7 +151,7 @@ class Kls(Invis):
 
 k = kls(0) # ERROR: must be an integer >= 1
 ```
-*(Notice that we didn't had to import *NATURAL_NUM*, the same way that we didn't had to import *NP_ARRAY* , once they are defined in the "_invis.py" module,  then they become available to all classes that derive from Invis)*
+*(Notice that we didn't had to import NATURAL_NUM, the same way that we didn't had to import NP_ARRAY , once they are defined in the "_invis.py" module,  then they become available to all classes that derive from Invis)*
 
 ### Now let's define two classes in two separate modules
 *(And have the second module only accept objects that are of the type defined in the first module.)*
@@ -239,7 +238,7 @@ k.func3(10)     # Returns 20
 ```
 
 ## Bonus
-*To enforce types in  random functions (those outside of a class that inherits from *Invis*), we can import a decorator 'inv'.*
+*To enforce types in  random functions (those outside of a class that inherits from Invis), we can import a decorator 'inv'.*
 ```python
 # example7.py
 
@@ -295,8 +294,10 @@ I would suggest, however, is that you submit any cool ideas/features/approaches 
 
 ## Acknowledgments
 
- - This project was inspired by, and builds upon, the ideas presented by [David Beazley](https://github.com/dabeaz) in his talk 
- [The Fun of Reinvention](https://www.youtube.com/watch?v=5nXmq1PsoJ0&t).
+- This project was inspired by, and builds upon, the ideas presented by [David Beazley](https://github.com/dabeaz) in his talk [The Fun of Reinvention](https://www.youtube.com/watch?v=5nXmq1PsoJ0&t).
+
  - Also essential to this project was the work done by [Eric Smith](https://github.com/ericvsmith), author of dataclasses, which lay the foundation for Invis.
-- I have used [Black](https://github.com/psf/black), by [Łukasz Langa](https://github.com/ambv), which turned out to be a proper partner in crime. 
+ 
+- I have used [Black](https://github.com/psf/black), by [Łukasz Langa](https://github.com/ambv), which turned out to be a proper partner in crime.
+
 - One last acknowledgment for the Python core-developers, and all others, who keep making Python a better programming language, version after version.
