@@ -167,7 +167,7 @@ from package1.module1 import Person, ed, jul
 class Kls(Invis):
     first: Person
 
-    def func(self, num: NaturalNum = 10):
+    def func(self, num: NATURAL_NUM = 10):
         return self.first.age + num
 
 k = Kls(ed) 
@@ -175,7 +175,7 @@ k.func()   	# Returns 46
 
 k.first = 10    # Error, first only accepts Person objects
 k.first = jul   # OK, because jul is also a Person object
-k.func(10.5)    # Error, float was passed, only NaturalNum (int >= 1) allowed
+k.func(10.5)    # Error, float was passed, only NATURAL_NUM (int >= 1) allowed
 k.func(10)      # OK, returns 58
 ```
 Pretty cool, right? Invisible type checking of user defined classes, in different modules, at runtime, without the need to write any extra code other than the import statement. Try it in a REPL.
