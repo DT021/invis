@@ -15,10 +15,14 @@ defined types.
 ################################# -- Builtins-- ######################################
 
 
+def func(a, b):
+    return a + b
+
+
 def test_permutations_builtins():
 
     # builtins = {bytes, bytearray, complex, dict, float, int, list, set, str, tuple}
-    values = [b"hello", bytearray(1), 1 + 1j, {}, 1.0, 2, [], "hi", ()]
+    values = [b"hello", bytearray(1), 1 + 1j, {}, 1.0, 2, [], "hi", (), func(2, 3)]
 
     for val in values:
 
@@ -41,10 +45,6 @@ def test_permutations_builtins():
 ############################## -- Function Keyword -- ################################
 
 
-def func(a, b):
-    return a + b
-
-
 # A non exhaustive list of values to test on the following test function.
 # The reason there is both e.g. [] and list, is to be able to test trying to
 # initialize the 'Function' with both.
@@ -58,7 +58,7 @@ values = [
     0,
     4.0,
     -5,
-    func,  # The function we defined above
+    func,  # The function defined above
     bytes,
     bytearray,
     complex,
