@@ -7,10 +7,15 @@ python:
 before_install:
   - python --version
   - pip install -U pip
+  - pip install -U codecov
   - pip install -U pytest
+  - pip install -U pytest-cov
 
 install:
   - pip install ".[test]" .
 
 script: 
-  - pytest
+  - pytest --cov=tests/
+  
+after_success:
+  - codecov
