@@ -58,7 +58,9 @@ class Typed(Descriptor):
                 if isinstance(value, _builtins):
                     raise TypeError(f"{ERROR} empty: {type(value)}")
         else:
-            if not isinstance(value, cls.type):
+            if not value:  # e.g. attribute_name: str = None
+                pass
+            elif not isinstance(value, cls.type):
                 raise AssertionError(f"Expected: {cls.type} got: {type(value)}")
 
         super().check(value)
