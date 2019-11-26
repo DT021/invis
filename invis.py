@@ -133,7 +133,7 @@ def inv(func):
                     ann[name].check(val)
                 except AttributeError:  # builtins don't have a .check() attribute
                     if not isinstance(val, ann[name]):
-                        AssertionError(
+                        raise AssertionError(
                             f"Expected {val} to be of type: {ann[name]} but got: {type(val)}"
                         )
             else:
