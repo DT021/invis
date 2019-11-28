@@ -3,8 +3,8 @@ from invis import Invis
 
 """
 Since Invis purpose is to assert types, it's a bit contrived to write assertion tests,
-nevertheless the following covers ~97% of the builtins + the Function keyword.
-(The only types that Invis accepts if you dont add a "_invis.py")
+nevertheless the following covers 100% of the builtins + the Function keyword.
+(The only types that Invis enforces if you dont define a "_invis.py" module)
 
 Additionally, there is some commented code that was used to test some of the examples
 from the README.md.
